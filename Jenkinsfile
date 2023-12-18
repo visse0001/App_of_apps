@@ -43,6 +43,8 @@ pipeline {
                         }
                     }
                 }
+            }
+        }
         stage ('Selenium test') {
             steps {
                 sh "pip3 install -r test/selenium/requirements.txt"
