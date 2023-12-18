@@ -9,7 +9,7 @@ pipeline {
     agent {
         label 'agent'
     }
-    evironment {
+    environment {
         PIP_BREAK_SYSTEM_PACKAGES = 1
     }
     stages {
