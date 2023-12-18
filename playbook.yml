@@ -22,23 +22,23 @@
         name: 
         - docker<7.0
         - docker-compose
-    # - name: Create a directory if it does not exist
-    #   file:
-    #     path: "{{ deployment_path }}"
-    #     state: directory
-    #     mode: '0755'
+    - name: Create a directory if it does not exist
+      file:
+        path: "{{ deployment_path }}"
+        state: directory
+        mode: '0755'
  
-    # - name: Copy docker compose
-    #   copy:
-    #     src: "{{ compose_path }}"
-    #     dest: "{{ deployment_path }}"
+    - name: Copy docker compose
+      copy:
+        src: "{{ compose_path }}"
+        dest: "{{ deployment_path }}"
  
-    # - name: Run `docker-compose up`
-    #   become: true
-    #   docker_compose:
-    #     project_src: "{{ deployment_path }}"
-    #     build: yes
-    #     debug: yes
-    #   environment:
-    #     FRONTEND_IMAGE: "{{ lookup('env','FRONTEND_IMAGE') }}"
-    #     BACKEND_IMAGE:  "{{ lookup('env','BACKEND_IMAGE') }}"
+    - name: Run `docker-compose up`
+      become: true
+      docker_compose:
+        project_src: "{{ deployment_path }}"
+        build: yes
+        debug: yes
+      environment:
+        FRONTEND_IMAGE: "{{ lookup('env','FRONTEND_IMAGE') }}"
+        BACKEND_IMAGE:  "{{ lookup('env','BACKEND_IMAGE') }}"
