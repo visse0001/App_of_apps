@@ -1,5 +1,5 @@
 def frontendImage="visse0001/frontend"
-def backendImage="visse0001/backend"
+def backendImage="pandaacademy/backend"
 def backendDockerTag=""
 def frontendDockerTag=""
 def dockerRegistry=""
@@ -51,6 +51,19 @@ pipeline {
                 sh "python3 -m pytest test/selenium/frontendTest.py"
             }
         }
+
+        stage('Run terraform') {
+            steps {
+                dir('Terraform') {                
+                    git branch: 'main', url: 'https://github.com/Panda-Academy-Core-2-0/Terraform'
+                    withAWS(credentials:'AWS', region: 'us-east-1') {
+                            sh 'terraform init -backend-config=bucket=sandra-kuczynska-panda-devops-core-16'
+                            sh 'terraform apply -auto-approve -var bucket_name=sandra-kuczynska-panda-devops-core-16'
+                            
+                    } 
+                }
+            }
+        }
     }
     parameters {
         string(name: 'backendDockerTag', defaultValue: '', description: 'Backend docker image tag')
@@ -61,5 +74,8 @@ pipeline {
             sh "docker-compose down"
             cleanWs()
         }
+    }
+    tools {
+        terraform 'Terraform'
     }
 }
